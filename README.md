@@ -7,6 +7,8 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 *Text format uml:*
 
+```
+```uml
 @startuml
 
 	Class Stage
@@ -19,6 +21,8 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
  	Stage <|-- Timeout
 
 @enduml
+```
+```
 
 ![](./images/uml.png)
 
@@ -34,4 +38,7 @@ Gitbook PlantUml plugin can be installed from NPM using:
 ***Additional requirements:***
 
  - Create a directory */assets/images/uml* in the root of your project.
- - [Install PlantUML.](http://www.plantuml.com/download.html)
+ - [Install PlantUML.](http://www.plantuml.com/download.html) (Download plantuml.jar to root path)
+
+For Mac OS X users. Install *graphviz* package.
+```$ brew install graphviz```
