@@ -2,10 +2,10 @@ var count = 0;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 
-function parseUml(page) {
+function parseUml(page, chapterPath, baseName) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
     if (uml) {
-        fs.writeFileSync("./plantuml.uml", uml);
+        fs.writeFileSync(chapterPath + "/" + baseName + ".uml", uml);
         return true;
     }
     return false;
@@ -76,40 +76,53 @@ module.exports = {
         "page:before": function(page) {
             // page.path is the path to the file
             // page.content is a string with the file markdown content
-            var hasUml = parseUml(page);
+
+            var pathToken = page.path.split('/')
+
+            var chapterPath
+            var baseName
+
+            if (pathToken.length == 1) {
+                chapterPath = '.'
+                baseName = pathToken[0].split('.')[0]
+            }
+            else {
+                chapterPath = pathToken[0]
+                baseName = pathToken[1].split('.')[0]
+            }
+
+            var hasUml = parseUml(page, chapterPath, baseName);
             if (!hasUml) { return page; }
 
             console.log('processing uml... %j', page.path);
 
-            var chapterPath = page.path.split('/')[0]
-
-            var lines = fs.readFileSync('plantuml.uml', 'utf8').split('```,');
+            var lines = fs.readFileSync(chapterPath + '/' + baseName + '.uml', 'utf8').split('```,');
             //UML
             debugger;
             try {
                 execFile('java', ['-jar',
                     'plantuml.jar',
                     '-tsvg',
-                    'plantuml.uml',
+                    chapterPath + '/' + baseName + '.uml',
                     '-o',
                     chapterPath
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
                 if (i == 0) {
-                    page.content = page.content.replace(lines[i], '![](plantuml.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '.svg)');
                     continue;
                 }
                 if (i < 10) {
-                    page.content = page.content.replace(lines[i], '![](plantuml_00' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_00' + i + '.svg)');
                     continue;
                 }
                 if (i >= 10 && i < 100) {
-                    page.content = page.content.replace(lines[i], '![](plantuml_0' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_0' + i + '.svg)');
                     continue;
                 }
                 if (i >= 100) {
-                    page.content = page.content.replace(lines[i], '![](plantuml_' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_' + i + '.svg)');
                     continue;
                 }
             };
