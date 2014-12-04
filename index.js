@@ -79,15 +79,19 @@ module.exports = {
 
             var pathToken = page.path.split('/')
 
+
             var chapterPath
+            var assetPath
             var baseName
 
             if (pathToken.length == 1) {
                 chapterPath = '.'
+                assetPath = './assets/images/uml/'
                 baseName = pathToken[0].split('.')[0]
             }
             else {
                 chapterPath = pathToken[0]
+                assetPath = '../assets/images/uml/' + chapterPath + '/'
                 baseName = pathToken[1].split('.')[0]
             }
 
@@ -105,24 +109,24 @@ module.exports = {
                     //'-tsvg',
                     chapterPath + '/' + baseName + '.uml',
                     '-o',
-                    '.'
+                    assetPath
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
                 if (i == 0) {
-                    page.content = page.content.replace(lines[i], '![](' + baseName + '.png)');
+                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '.png)');
                     continue;
                 }
                 if (i < 10) {
-                    page.content = page.content.replace(lines[i], '![](' + baseName + '_00' + i + '.png)');
+                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_00' + i + '.png)');
                     continue;
                 }
                 if (i >= 10 && i < 100) {
-                    page.content = page.content.replace(lines[i], '![](' + baseName + '_0' + i + '.png)');
+                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_0' + i + '.png)');
                     continue;
                 }
                 if (i >= 100) {
-                    page.content = page.content.replace(lines[i], '![](' + baseName + '_' + i + '.png)');
+                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_' + i + '.png)');
                     continue;
                 }
             };
