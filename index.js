@@ -13,6 +13,11 @@ function parseUml(page) {
 
 function execFile(command, args, callback) {
     var prc = spawn(command, args);
+
+    prc.on('error', function (err) {
+        console.log('cannot spawn java');
+    });
+
     prc.stdout.on('data', function(data) {
         console.log(data.toString());
     });
@@ -55,12 +60,12 @@ module.exports = {
 
         // This is called before the book is generated
         "init": function() {
-            console.log("init gitbook-plantUML!");
+            console.log("init gitbook-plugin-plantuml!");
         },
 
         // This is called after the book generation
         "finish": function() {
-            console.log("finish gitbook-plantUML!");
+            console.log("finish gitbook-plugin-plantuml!");
         },
 
         // The following hooks are called for each page of the book
@@ -82,7 +87,7 @@ module.exports = {
             //UML
             debugger;
             try {
-                execFile('java', ['-jar',
+                execFile('javaa', ['-jar',
                     'plantuml.jar',
                     '-tsvg',
                     'plantuml.uml',
