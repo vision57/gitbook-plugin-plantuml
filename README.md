@@ -32,7 +32,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 Gitbook PlantUml plugin can be installed from NPM using:
 
-```$ npm install gitbook-plantUML```
+```$ npm install gitbook-plugin-plantuml```
 
 Configure plugin in `book.json`.
 
@@ -41,6 +41,14 @@ Configure plugin in `book.json`.
     "plugins": ["plantuml"]
 }
 ```
+
+This plugin only works in your local machine. You need to play with local `gitbook` (command-line tool) to pre-compile all uml images.
+
+```$ gitbook serve yourbook```
+
+or 
+
+```$ gitbook build yourbook```
 
 ***Additional requirements:***
 
