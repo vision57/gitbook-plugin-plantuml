@@ -105,24 +105,24 @@ module.exports = {
                     '-tsvg',
                     chapterPath + '/' + baseName + '.uml',
                     '-o',
-                    chapterPath
+                    '.'
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
                 if (i == 0) {
-                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + baseName + '.svg)');
                     continue;
                 }
                 if (i < 10) {
-                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_00' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + baseName + '_00' + i + '.svg)');
                     continue;
                 }
                 if (i >= 10 && i < 100) {
-                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_0' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + baseName + '_0' + i + '.svg)');
                     continue;
                 }
                 if (i >= 100) {
-                    page.content = page.content.replace(lines[i], '![](' + chapterPath + '/' + baseName + '_' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](' + baseName + '_' + i + '.svg)');
                     continue;
                 }
             };
