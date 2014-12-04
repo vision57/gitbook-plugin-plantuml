@@ -87,7 +87,7 @@ module.exports = {
             //UML
             debugger;
             try {
-                execFile('javaa', ['-jar',
+                execFile('java', ['-jar',
                     'plantuml.jar',
                     '-tsvg',
                     'plantuml.uml',
