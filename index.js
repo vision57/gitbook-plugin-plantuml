@@ -5,8 +5,10 @@ var fs = require('fs');
 function parseUml(page) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
     if (uml) {
-        fs.writeFileSync("./alluml.uml", uml);
+        fs.writeFileSync("./plantuml.uml", uml);
+        return true;
     }
+    return false;
 }
 
 function execFile(command, args, callback) {
@@ -69,34 +71,40 @@ module.exports = {
         "page:before": function(page) {
             // page.path is the path to the file
             // page.content is a string with the file markdown content
-            parseUml(page);
-            var lines = fs.readFileSync('alluml.uml', 'utf8').split('```,');
+            var hasUml = parseUml(page);
+            if (!hasUml) { return page; }
+
+            console.log('processing uml... %j', page.path);
+
+            var chapterPath = page.path.split('/')[0]
+
+            var lines = fs.readFileSync('plantuml.uml', 'utf8').split('```,');
             //UML
             debugger;
             try {
                 execFile('java', ['-jar',
                     'plantuml.jar',
                     '-tsvg',
-                    'alluml.uml',
+                    'plantuml.uml',
                     '-o',
-                    './assets/images/uml/'
+                    chapterPath
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
                 if (i == 0) {
-                    page.content = page.content.replace(lines[i], '![](../assets/images/uml/alluml.svg)');
+                    page.content = page.content.replace(lines[i], '![](plantuml.svg)');
                     continue;
                 }
                 if (i < 10) {
-                    page.content = page.content.replace(lines[i], '![](../assets/images/uml/alluml_00' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](plantuml_00' + i + '.svg)');
                     continue;
                 }
                 if (i >= 10 && i < 100) {
-                    page.content = page.content.replace(lines[i], '![](../assets/images/uml/alluml_0' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](plantuml_0' + i + '.svg)');
                     continue;
                 }
                 if (i >= 100) {
-                    page.content = page.content.replace(lines[i], '![](../assets/images/uml/alluml_' + i + '.svg)');
+                    page.content = page.content.replace(lines[i], '![](plantuml_' + i + '.svg)');
                     continue;
                 }
             };

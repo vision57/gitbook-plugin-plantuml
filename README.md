@@ -7,8 +7,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 *Text format uml:*
 
-<pre><code>
-```uml
+<pre><code>```uml
 @startuml
 
 	Class Stage
@@ -34,6 +33,14 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 Gitbook PlantUml plugin can be installed from NPM using:
 
 ```$ npm install gitbook-plantUML```
+
+Configure plugin in `book.json`.
+
+```
+{
+    "plugins": ["plantuml"]
+}
+```
 
 ***Additional requirements:***
 
