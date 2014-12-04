@@ -18,7 +18,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 		+overdue:function(ctx)
 		+stage: Stage
 	}
- 	Stage <|-- Timeout
+ 	Stage &lt;|-- Timeout
 
 @enduml
 ```
@@ -41,4 +41,5 @@ Gitbook PlantUml plugin can be installed from NPM using:
  - [Install PlantUML.](http://www.plantuml.com/download.html) (Download plantuml.jar to root path)
 
 For Mac OS X users. Install *graphviz* package.
+
 ```$ brew install graphviz```
