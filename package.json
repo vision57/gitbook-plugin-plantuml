@@ -2,7 +2,7 @@
     "name": "gitbook-plugin-plantuml",
     "description": "PlantUML plugin for GitBook",
     "main": "index.js",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "engines": {
         "gitbook": "*"
     },
@@ -14,5 +14,8 @@
     "license": "Apache 2",
     "bugs": {
         "url": ""
+    },
+    "dependencies": {
+        "mkdirp": ">= 0.5.0"
     }
 }

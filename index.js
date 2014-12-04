@@ -1,11 +1,12 @@
 var count = 0;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 
-function parseUml(page, chapterPath, baseName) {
+function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
     if (uml) {
-        fs.writeFileSync(assetPath + baseName + ".uml", uml);
+        fs.writeFileSync(umlPath, uml);
         return true;
     }
     return false;
@@ -79,10 +80,10 @@ module.exports = {
 
             var pathToken = page.path.split('/')
 
-
             var chapterPath
             var assetPath
             var baseName
+            var umlPath
 
             if (pathToken.length == 1) {
                 chapterPath = '.'
@@ -95,21 +96,25 @@ module.exports = {
                 baseName = pathToken[1].split('.')[0]
             }
 
-            var hasUml = parseUml(page, chapterPath, baseName);
+            umlPath = './assets/images/uml/' + baseName + '.uml'
+
+            mkdirp.sync('./assets/images/uml/');
+
+            var hasUml = parseUml(page, umlPath);
             if (!hasUml) { return page; }
 
             console.log('processing uml... %j', page.path);
 
-            var lines = fs.readFileSync(chapterPath + '/' + baseName + '.uml', 'utf8').split('```,');
+            var lines = fs.readFileSync(umlPath, 'utf8').split('```,');
             //UML
             debugger;
             try {
                 execFile('java', ['-jar',
                     'plantuml.jar',
                     //'-tsvg',
-                    assetPath + baseName + '.uml',
+                    umlPath,
                     '-o',
-                    assetPath
+                    '.'
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
