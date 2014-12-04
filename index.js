@@ -5,7 +5,7 @@ var fs = require('fs');
 function parseUml(page, chapterPath, baseName) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
     if (uml) {
-        fs.writeFileSync(chapterPath + "/" + baseName + ".uml", uml);
+        fs.writeFileSync(assetPath + baseName + ".uml", uml);
         return true;
     }
     return false;
@@ -107,7 +107,7 @@ module.exports = {
                 execFile('java', ['-jar',
                     'plantuml.jar',
                     //'-tsvg',
-                    chapterPath + '/' + baseName + '.uml',
+                    assetPath + baseName + '.uml',
                     '-o',
                     assetPath
                 ]);
