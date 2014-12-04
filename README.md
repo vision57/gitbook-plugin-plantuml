@@ -7,7 +7,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 *Text format uml:*
 
-```
+<pre><code>
 ```uml
 @startuml
 
@@ -22,7 +22,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 @enduml
 ```
-```
+</code></pre>
 
 ![](./images/uml.png)
 
