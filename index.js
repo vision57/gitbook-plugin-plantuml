@@ -137,7 +137,7 @@ module.exports = {
                     continue;
                 }
             };
-            page.content = page.content.replace(/```/g, '');
+            page.content = page.content.replace(/^```uml((.*\n)+?)?```$/g, '');
             // Example:
             //page.content = "# Title\n" + page.content;
 
