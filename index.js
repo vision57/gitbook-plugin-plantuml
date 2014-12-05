@@ -109,7 +109,9 @@ module.exports = {
             //UML
             debugger;
             try {
-                execFile('java', ['-jar',
+                execFile('java', [
+                    '-Dapple.awt.UIElement=true',
+                    '-jar',
                     'plantuml.jar',
                     //'-tsvg',
                     umlPath,
