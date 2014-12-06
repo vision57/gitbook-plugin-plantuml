@@ -106,6 +106,9 @@ module.exports = {
             console.log('processing uml... %j', page.path);
 
             var lines = fs.readFileSync(umlPath, 'utf8').split('```,');
+
+            //console.log('%j', lines);
+
             //UML
             debugger;
             try {
@@ -120,24 +123,28 @@ module.exports = {
                 ]);
             } catch (e) {};
             for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                if (i < (lines.length-1)) {
+                    line += '```';
+                }
                 if (i == 0) {
-                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '.png)');
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '.png)');
                     continue;
                 }
                 if (i < 10) {
-                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_00' + i + '.png)');
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_00' + i + '.png)');
                     continue;
                 }
                 if (i >= 10 && i < 100) {
-                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_0' + i + '.png)');
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_0' + i + '.png)');
                     continue;
                 }
                 if (i >= 100) {
-                    page.content = page.content.replace(lines[i], '![](' + assetPath + baseName + '_' + i + '.png)');
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_' + i + '.png)');
                     continue;
                 }
             };
-            page.content = page.content.replace(/^```uml((.*\n)+?)?```$/g, '');
+            //page.content = page.content.replace(/^```uml((.*\n)+?)?```$/g, '');
             // Example:
             //page.content = "# Title\n" + page.content;
 
