@@ -2,6 +2,7 @@ var count = 0;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
 var mkdirp = require('mkdirp');
+var crypto = require('crypto');
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
@@ -105,23 +106,43 @@ module.exports = {
 
             console.log('processing uml... %j', page.path);
 
-            var lines = fs.readFileSync(umlPath, 'utf8').split('```,');
+            var text = fs.readFileSync(umlPath, 'utf8');
+
+            var md5sum = crypto.createHash('sha1').update(text).digest('hex');
+
+            var lastmd5sum = ''
+
+            try {
+                lastmd5sum = fs.readFileSync(umlPath + '.sum');
+            }
+            catch (e) {
+            }
+
+            var isUpdateImageRequired = (lastmd5sum != md5sum);
+
+            fs.writeFileSync(umlPath + '.sum', md5sum);
+
+            var lines = text.split('```,');
 
             //console.log('%j', lines);
 
             //UML
-            debugger;
-            try {
-                execFile('java', [
-                    '-Dapple.awt.UIElement=true',
-                    '-jar',
-                    'plantuml.jar',
-                    //'-tsvg',
-                    umlPath,
-                    '-o',
-                    '.'
-                ]);
-            } catch (e) {};
+            if (isUpdateImageRequired) {
+                debugger;
+                try {
+                    execFile('java', [
+                        '-Dapple.awt.UIElement=true',
+                        '-jar',
+                        'plantuml.jar',
+                        '-nbthread auto',
+                        //'-tsvg',
+                        umlPath,
+                        '-o',
+                        '.'
+                    ]);
+                } catch (e) {};
+            }
+
             for (var i = 0; i < lines.length; i++) {
                 var line = lines[i];
                 if (i < (lines.length-1)) {
