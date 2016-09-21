@@ -9,7 +9,7 @@ function parseUml(page, umlPath) {
     if (uml) {
         fs.writeFileSync(umlPath, uml);
         return true;
-    }t
+    }
     return false;
 }
 
