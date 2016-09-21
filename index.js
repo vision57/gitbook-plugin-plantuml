@@ -88,7 +88,7 @@ module.exports = {
 
             if (pathToken.length == 1) {
                 chapterPath = '.'
-                assetPath = './assets/images/uml/'
+                assetPath = './_book/assets/images/uml/'
                 baseName = pathToken[0].split('.')[0]
             }
             else {
