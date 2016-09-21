@@ -97,9 +97,9 @@ module.exports = {
                 baseName = pathToken[1].split('.')[0]
             }
 
-            umlPath = './assets/images/uml/' + chapterPath + '/' + baseName + '.uml'
+            umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml'
 
-            mkdirp.sync('./assets/images/uml/' + chapterPath);
+            mkdirp.sync('./_book/assets/images/uml/' + chapterPath);
 
             var hasUml = parseUml(page, umlPath);
             if (!hasUml) { return page; }
