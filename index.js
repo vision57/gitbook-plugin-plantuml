@@ -9,7 +9,7 @@ function parseUml(page, umlPath) {
     if (uml) {
         fs.writeFileSync(umlPath, uml);
         return true;
-    }
+    }t
     return false;
 }
 
@@ -92,16 +92,15 @@ module.exports = {
                 baseName = pathToken[0].split('.')[0]
             }
             else {
-                console.log("pathToken" + pathToken);
+                console.log("pathToken: " + pathToken);
                 chapterPath = pathToken[0]
                 assetPath = '../assets/images/uml/' + chapterPath + '/'
                 baseName = pathToken[1].split('.')[0]
-                console.log("baseName" + baseName);
+                console.log("baseName: " + baseName);
             }
 
             umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml'
             
-            setTimeout(function(){}, 3000);
 
             mkdirp.sync('./_book/assets/images/uml/' + chapterPath);
 
