@@ -181,18 +181,6 @@ module.exports = {
             //page.sections.unshift({type: "normal", content: "<h1>Title</h1>"})
 
             return page;
-        },
-
-        // After html generation
-        "page:after": function(page) {
-            // page.path is the path to the file
-            // page.content is a string with the html output
-
-            // Example:
-            //page.content = "<h1>Title</h1>\n" + page.content;
-            // -> This title will be added before the html tag so not visible in the browser
-
-            return page;
         }
     }
 };
