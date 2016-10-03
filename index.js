@@ -39,7 +39,8 @@ module.exports = {
         "init": function() {
 			umlPath = path.join(this.options.output, 'assets', 'images', 'uml');
 			mode = this.options._name;
-			mkdir('-p', umlPath);
+			mkdirp.sync(umlPath);
+
 		}
 
 	,	"page:before": function(page) {
