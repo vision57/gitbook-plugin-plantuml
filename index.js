@@ -1,15 +1,40 @@
+var count = 0;
+var spawn = require('child_process').spawn;
 var fs = require('fs');
-var re = /^```uml((.*\n)+?)?```$/im;
+var mkdirp = require('mkdirp');
 var crypto = require('crypto');
-var path = require('path');
-
-require('shelljs/global');
 
 var umlPath, mode;
 
 module.exports = {
-	hooks: {
-		"init": function() {
+    book: {
+        assets: "./book",
+        js: [
+            "test.js"
+        ],
+        css: [
+            "test.css"
+        ],
+        html: {
+            "html:start": function() {
+                return "<!-- Start book " + this.options.title + " -->"
+            },
+            "html:end": function() {
+                return "<!-- End of book " + this.options.title + " -->"
+            },
+
+            "head:start": "<!-- head:start -->",
+            "head:end": "<!-- head:end -->",
+
+            "body:start": "<!-- body:start -->",
+            "body:end": "<!-- body:end -->"
+        }
+    },
+    hooks: {
+        // For all the hooks, this represent the current generator
+
+        // This is called before the book is generated
+        "init": function() {
 			umlPath = path.join(this.options.output, 'assets', 'images', 'uml');
 			mode = this.options._name;
 			mkdir('-p', umlPath);
@@ -39,5 +64,5 @@ module.exports = {
 
 		"page": function(page) { return page; },
 		"page:after": function(page) { return page; }
-	}
+    }
 };
