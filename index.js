@@ -3,6 +3,7 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var crypto = require('crypto');
+var plantuml = require('node-plantuml');
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
@@ -133,7 +134,10 @@ module.exports = {
             if (isUpdateImageRequired) {
                 debugger;
                 try {
-                    execFile('java', [
+                    plantuml.generate(umlPath);
+                    gen.out.pipe(fs.createWriteStream(umlPath + ".png");
+                    
+                    /*execFile('java', [
                         '-Dapple.awt.UIElement=true',
                         '-jar',
                         'plantuml.jar',
@@ -142,7 +146,7 @@ module.exports = {
                         umlPath,
                         '-o',
                         '.'
-                    ]);
+                    ]);*/
                 } catch (e) {};
             }
 
