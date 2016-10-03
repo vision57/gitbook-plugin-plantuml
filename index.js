@@ -51,7 +51,6 @@ module.exports = {
         // Before parsing markdown
         "page:before": function(page) {
             var content = page.content;
-            console.log('pathhh del uml ' + umlPath);
 
             while ((match = re.exec(content))) {
                 var rawBlock = match[0];
