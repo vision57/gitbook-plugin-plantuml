@@ -59,7 +59,7 @@ module.exports = {
 
         // Before parsing markdown
         "page:before": function(page) {
-            /*// page.path is the path to the file
+            // page.path is the path to the file
             // page.content is a string with the file markdown content
 
             var pathToken = page.path.split('/')
@@ -82,9 +82,10 @@ module.exports = {
                 console.log("baseName: " + baseName);
             }
 
-            umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml'
+            umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml';
             
-
+	/*
+	    
             mkdirp.sync('./_book/assets/images/uml/' + chapterPath);
 
             var hasUml = parseUml(page, umlPath);
@@ -146,7 +147,7 @@ module.exports = {
             */
             
             var content = page.content;
-		var umlPath = './_book/assets/images/uml/';
+
 
 			while((match = re.exec(content))) {
 				var rawBlock = match[0];
