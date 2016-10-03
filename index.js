@@ -5,6 +5,7 @@ var mkdirp = require('mkdirp');
 var crypto = require('crypto');
 var plantuml = require('node-plantuml');
 var re = /^```uml((.*\n)+?)?```$/im;
+var path = require('path');
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
