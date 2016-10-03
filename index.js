@@ -6,7 +6,6 @@ var crypto = require('crypto');
 var plantuml = require('node-plantuml');
 var re = /^```uml((.*\n)+?)?```$/im;
 var path = require('path');
-require('shelljs/global');
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
@@ -49,7 +48,7 @@ module.exports = {
             console.log("init gitbook-plugin-plantuml!");
 		umlPath = path.join(this.options.output, '_book', 'assets', 'images', 'uml');
 		mode = this.options._name;
-		mkdir('-p', umlPath);
+		mkdirp.sync(umlPath);
         },
 
         // This is called after the book generation
