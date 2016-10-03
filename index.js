@@ -14,26 +14,6 @@ function parseUml(page, umlPath) {
     return false;
 }
 
-function execFile(command, args, callback) {
-    var prc = spawn(command, args);
-
-    prc.on('error', function (err) {
-        console.log('cannot spawn java');
-    });
-
-    prc.stdout.on('data', function(data) {
-        console.log(data.toString());
-    });
-
-    prc.stderr.on('data', function(data) {
-        console.log(data.toString());
-    });
-
-    prc.on('close', function(code) {
-        if ("function" === typeof callback) callback(!!code);
-    });
-};
-
 module.exports = {
     book: {
         assets: "./book",
@@ -132,23 +112,8 @@ module.exports = {
 
             //UML
             if (isUpdateImageRequired) {
-                debugger;
-                try {
-                    var gen = plantuml.generate(umlPath, {format:'png'});
-                    gen.out.pipe(fs.createWriteStream(umlPath + ".png"));
-                    
-                    /*execFile('java', [
-                        '-Dapple.awt.UIElement=true',
-                        '-jar',
-                        'plantuml.jar',
-                        '-nbthread auto',
-                        //'-tsvg',
-                        umlPath,
-                        '-o',
-                        '.'
-                    ]);*/
-                    
-                } catch (e) {};
+                var gen = plantuml.generate(umlPath, {format:'png'});
+                gen.out.pipe(fs.createWriteStream(umlPath.replace('.uml', '.png')));
             }
 
             for (var i = 0; i < lines.length; i++) {
