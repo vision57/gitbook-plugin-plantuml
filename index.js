@@ -54,12 +54,13 @@ module.exports = {
 
 				fs.writeFileSync(umlFile, match[1], 'utf8');
 				
-				if(0 == exec(['java -jar', this.options.pluginsConfig.plantumlandia.jarPath, '-tsvg', umlFile, '-o', umlPath].join(' ')).code) {
+				console.log("ejecutoo")
+				/*if(0 == exec(['java -jar', this.options.pluginsConfig.plantuml.jarPath, '-tsvg', umlFile, '-o', umlPath].join(' ')).code) {
 					var svgPath = ('serve' == mode) ? '/assets/images/uml/' : ['file://', umlPath, '/'].join('');
 					var svgTag = ['![](', svgPath, md5, '.svg)'].join('');
 					
 					page.content = content = content.replace(rawBlock, svgTag);
-				}
+				}*/
 			}
 			
 			return page;
