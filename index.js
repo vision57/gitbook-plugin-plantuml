@@ -59,7 +59,7 @@ module.exports = {
 
         // Before parsing markdown
         "page:before": function(page) {
-            // page.path is the path to the file
+            /*// page.path is the path to the file
             // page.content is a string with the file markdown content
 
             var pathToken = page.path.split('/')
@@ -84,7 +84,7 @@ module.exports = {
 
             umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml';
             
-	/*
+	
 	    
             mkdirp.sync('./_book/assets/images/uml/' + chapterPath);
 
@@ -147,7 +147,7 @@ module.exports = {
             */
             
             var content = page.content;
-
+		var umlPath = './_book/assets/images/uml/';
 
 			while((match = re.exec(content))) {
 				var rawBlock = match[0];
@@ -158,7 +158,7 @@ module.exports = {
 				fs.writeFileSync(umlFile, match[1], 'utf8');
 				
                 
-                var gen = plantuml.generate(umlPath, {format:'png'});
+                var gen = plantuml.generate(umlFile, {format:'png'});
                 gen.out.pipe(fs.createWriteStream(umlPath.replace('.uml', '.png')));
                 
                 var svgPath = ('serve' == mode) ? '/assets/images/uml/' : ['file://', umlPath, '/'].join('');
