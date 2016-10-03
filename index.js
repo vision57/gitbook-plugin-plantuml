@@ -164,8 +164,7 @@ console.log('pathhh del uml ' + umlPath);
                 var gen = plantuml.generate(umlFile, {format:'png'});
                 gen.out.pipe(fs.createWriteStream(umlFile.replace('.uml', '.png')));
                 
-                var svgPath = ('serve' == mode) ? '/assets/images/uml/' : ['file://', umlPath, '/'].join('');
-                var svgTag = ['![](', svgPath, md5, '.svg)'].join('');
+                var svgTag = ['![](', '../assets/images/uml/', md5, '.png)'].join('');
 					
                 page.content = content = content.replace(rawBlock, svgTag);
 			}
