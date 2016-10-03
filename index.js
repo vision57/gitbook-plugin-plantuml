@@ -3,6 +3,8 @@ var spawn = require('child_process').spawn;
 var fs = require('fs');
 var mkdirp = require('mkdirp');
 var crypto = require('crypto');
+var re = /^```uml((.*\n)+?)?```$/im;
+var path = require('path');
 
 var umlPath, mode;
 
