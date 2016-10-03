@@ -1,13 +1,37 @@
 var count = 0;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
+var mkdirp = require('mkdirp');
 var crypto = require('crypto');
-var re = /^```uml((.*\n)+?)?```$/im;
-var path = require('path');
 
-require('shelljs/global');
+function parseUml(page, umlPath) {
+    uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
+    if (uml) {
+        fs.writeFileSync(umlPath, uml);
+        return true;
+    }
+    return false;
+}
 
-var umlPath, mode;
+function execFile(command, args, callback) {
+    var prc = spawn(command, args);
+
+    prc.on('error', function (err) {
+        console.log('cannot spawn java');
+    });
+
+    prc.stdout.on('data', function(data) {
+        console.log(data.toString());
+    });
+
+    prc.stderr.on('data', function(data) {
+        console.log(data.toString());
+    });
+
+    prc.on('close', function(code) {
+        if ("function" === typeof callback) callback(!!code);
+    });
+};
 
 module.exports = {
     book: {
@@ -38,35 +62,128 @@ module.exports = {
 
         // This is called before the book is generated
         "init": function() {
-			umlPath = path.join(this.options.output, 'assets', 'images', 'uml');
-			mode = this.options._name;
-			mkdir('-p', umlPath);
-		}
+            console.log("init gitbook-plugin-plantuml!");
+        },
 
-	,	"page:before": function(page) {
-			var content = page.content;
+        // This is called after the book generation
+        "finish": function() {
+            console.log("finish gitbook-plugin-plantuml!");
+        },
 
-			while((match = re.exec(content))) {
-				var rawBlock = match[0];
-				var umlBlock = match[1];
-				var md5 = crypto.createHash('md5').update(umlBlock).digest('hex');
-				var umlFile = path.join(umlPath, md5+'.uml');
+        // The following hooks are called for each page of the book
+        // and can be used to change page content (html, data or markdown)
 
-				fs.writeFileSync(umlFile, match[1], 'utf8');
-				
-				console.log("ejecutoo")
-				/*if(0 == exec(['java -jar', this.options.pluginsConfig.plantuml.jarPath, '-tsvg', umlFile, '-o', umlPath].join(' ')).code) {
-					var svgPath = ('serve' == mode) ? '/assets/images/uml/' : ['file://', umlPath, '/'].join('');
-					var svgTag = ['![](', svgPath, md5, '.svg)'].join('');
-					
-					page.content = content = content.replace(rawBlock, svgTag);
-				}*/
-			}
-			
-			return page;
-		},
 
-		"page": function(page) { return page; },
-		"page:after": function(page) { return page; }
+        // Before parsing markdown
+        "page:before": function(page) {
+            // page.path is the path to the file
+            // page.content is a string with the file markdown content
+
+            var pathToken = page.path.split('/')
+
+            var chapterPath
+            var assetPath
+            var baseName
+            var umlPath
+
+            if (pathToken.length == 1) {
+                chapterPath = '.'
+                assetPath = './_book/assets/images/uml/'
+                baseName = pathToken[0].split('.')[0]
+            }
+            else {
+                console.log("pathToken: " + pathToken);
+                chapterPath = pathToken[0]
+                assetPath = '../assets/images/uml/' + chapterPath + '/'
+                baseName = pathToken[1].split('.')[0]
+                console.log("baseName: " + baseName);
+            }
+
+            umlPath = './_book/assets/images/uml/' + chapterPath + '/' + baseName + '.uml'
+            
+
+            mkdirp.sync('./_book/assets/images/uml/' + chapterPath);
+
+            var hasUml = parseUml(page, umlPath);
+            if (!hasUml) { return page; }
+
+            console.log('processing uml... %j', page.path);
+
+            var text = fs.readFileSync(umlPath, 'utf8');
+
+            var md5sum = crypto.createHash('sha1').update(text).digest('hex');
+
+            var lastmd5sum = ''
+
+            try {
+                lastmd5sum = fs.readFileSync(umlPath + '.sum');
+            }
+            catch (e) {
+            }
+
+            var isUpdateImageRequired = (lastmd5sum != md5sum);
+
+            fs.writeFileSync(umlPath + '.sum', md5sum);
+
+            var lines = text.split('```,');
+
+            //console.log('%j', lines);
+
+            //UML
+            if (isUpdateImageRequired) {
+                debugger;
+                try {
+                    execFile('java', [
+                        '-Dapple.awt.UIElement=true',
+                        '-jar',
+                        'plantuml.jar',
+                        '-nbthread auto',
+                        //'-tsvg',
+                        umlPath,
+                        '-o',
+                        '.'
+                    ]);
+                } catch (e) {};
+            }
+
+            for (var i = 0; i < lines.length; i++) {
+                var line = lines[i];
+                if (i < (lines.length-1)) {
+                    line += '```';
+                }
+                if (i == 0) {
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '.png)');
+                    continue;
+                }
+                if (i < 10) {
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_00' + i + '.png)');
+                    continue;
+                }
+                if (i >= 10 && i < 100) {
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_0' + i + '.png)');
+                    continue;
+                }
+                if (i >= 100) {
+                    page.content = page.content.replace(line, '![](' + assetPath + baseName + '_' + i + '.png)');
+                    continue;
+                }
+            };
+            //page.content = page.content.replace(/^```uml((.*\n)+?)?```$/g, '');
+            // Example:
+            //page.content = "# Title\n" + page.content;
+
+            return page;
+        },
+
+        // Before html generation
+        "page": function(page) {
+            // page.path is the path to the file
+            // page.sections is a list of parsed sections
+
+            // Example:
+            //page.sections.unshift({type: "normal", content: "<h1>Title</h1>"})
+
+            return page;
+        }
     }
 };
