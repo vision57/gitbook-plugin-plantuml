@@ -134,8 +134,9 @@ module.exports = {
             if (isUpdateImageRequired) {
                 debugger;
                 try {
+                    console.log("path del archivooooo " + umlPath);
                     var gen = plantuml.generate(umlPath);
-                    gen.out.pipe(fs.createWriteStream(umlPath + ".png");
+                    //gen.out.pipe(fs.createWriteStream(umlPath + ".png");
                     
                     /*execFile('java', [
                         '-Dapple.awt.UIElement=true',
