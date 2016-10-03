@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var plantuml = require('node-plantuml');
 var re = /^```uml((.*\n)+?)?```$/im;
 var path = require('path');
+require('shelljs/global');
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
