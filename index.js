@@ -6,9 +6,6 @@ var re = /^```uml((.*\n)+?)?```$/im;
 var path = require('path');
 
 module.exports = {
-    book: {
-        assets: "./book"
-    },
     hooks: {
         // This is called before the book is generated
         "init": function() {
