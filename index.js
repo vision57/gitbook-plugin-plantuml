@@ -136,7 +136,8 @@ module.exports = {
                 try {
                     console.log("path del archivooooo " + umlPath);
                     var gen = plantuml.generate(umlPath, {format:'png'});
-                    console.log("generated thing " + gen);
+                    console.log("generated thing " + gen.out);
+                    typeof(gen.out);
                     //gen.out.pipe(fs.createWriteStream(umlPath + ".png");
                     
                     /*execFile('java', [
