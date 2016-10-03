@@ -46,6 +46,9 @@ module.exports = {
         // This is called before the book is generated
         "init": function() {
             console.log("init gitbook-plugin-plantuml!");
+		umlPath = path.join(this.options.output, '_book', 'assets', 'images', 'uml');
+		mode = this.options._name;
+		mkdir('-p', umlPath);
         },
 
         // This is called after the book generation
@@ -147,7 +150,7 @@ module.exports = {
             */
             
             var content = page.content;
-		var umlPath = './_book/assets/images/uml/';
+console.log('pathhh del uml ' + umlPath);
 
 			while((match = re.exec(content))) {
 				var rawBlock = match[0];
