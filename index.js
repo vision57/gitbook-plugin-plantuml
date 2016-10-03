@@ -1,10 +1,11 @@
 var count = 0;
 var spawn = require('child_process').spawn;
 var fs = require('fs');
-var mkdirp = require('mkdirp');
 var crypto = require('crypto');
 var re = /^```uml((.*\n)+?)?```$/im;
 var path = require('path');
+
+require('shelljs/global');
 
 var umlPath, mode;
 
@@ -39,8 +40,7 @@ module.exports = {
         "init": function() {
 			umlPath = path.join(this.options.output, 'assets', 'images', 'uml');
 			mode = this.options._name;
-			mkdirp.sync(umlPath);
-
+			mkdir('-p', umlPath);
 		}
 
 	,	"page:before": function(page) {
