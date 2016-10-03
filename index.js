@@ -4,6 +4,7 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var crypto = require('crypto');
 var plantuml = require('node-plantuml');
+var re = /^```uml((.*\n)+?)?```$/im;
 
 function parseUml(page, umlPath) {
     uml = page.content.match(/^```uml((.*\n)+?)?```$/igm);
@@ -57,7 +58,7 @@ module.exports = {
 
         // Before parsing markdown
         "page:before": function(page) {
-            // page.path is the path to the file
+            /*// page.path is the path to the file
             // page.content is a string with the file markdown content
 
             var pathToken = page.path.split('/')
@@ -141,6 +142,27 @@ module.exports = {
             //page.content = page.content.replace(/^```uml((.*\n)+?)?```$/g, '');
             // Example:
             //page.content = "# Title\n" + page.content;
+            */
+            
+            var content = page.content;
+
+			while((match = re.exec(content))) {
+				var rawBlock = match[0];
+				var umlBlock = match[1];
+				var md5 = crypto.createHash('md5').update(umlBlock).digest('hex');
+				var umlFile = path.join(umlPath, md5+'.uml');
+
+				fs.writeFileSync(umlFile, match[1], 'utf8');
+				
+                
+                var gen = plantuml.generate(umlPath, {format:'png'});
+                gen.out.pipe(fs.createWriteStream(umlPath.replace('.uml', '.png')));
+                
+                var svgPath = ('serve' == mode) ? '/assets/images/uml/' : ['file://', umlPath, '/'].join('');
+                var svgTag = ['![](', svgPath, md5, '.svg)'].join('');
+					
+                page.content = content = content.replace(rawBlock, svgTag);
+			}
 
             return page;
         },
