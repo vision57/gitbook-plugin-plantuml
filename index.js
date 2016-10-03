@@ -134,11 +134,8 @@ module.exports = {
             if (isUpdateImageRequired) {
                 debugger;
                 try {
-                    console.log("path del archivooooo " + umlPath);
                     var gen = plantuml.generate(umlPath, {format:'png'});
-                    console.log("generated thing " + gen.out);
-                    console.log("tipo  " + typeof(gen.out));
-                    //gen.out.pipe(fs.createWriteStream(umlPath + ".png");
+                    gen.out.pipe(fs.createWriteStream(umlPath + ".png"));
                     
                     /*execFile('java', [
                         '-Dapple.awt.UIElement=true',
@@ -150,6 +147,7 @@ module.exports = {
                         '-o',
                         '.'
                     ]);*/
+                    
                 } catch (e) {};
             }
 
