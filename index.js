@@ -12,7 +12,7 @@ module.exports = {
 		"init": function() {
 			umlPath = path.join(this.options.output, 'assets', 'images', 'uml');
 			mode = this.options._name;
-            console.log("path ------>" + umlPath)
+            console.log("path ------>" + umlPath);
 			mkdir('-p', umlPath);
 		}
 
