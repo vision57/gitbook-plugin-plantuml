@@ -146,6 +146,7 @@ module.exports = {
             */
             
             var content = page.content;
+		var umlPath = './_book/assets/images/uml/';
 
 			while((match = re.exec(content))) {
 				var rawBlock = match[0];
