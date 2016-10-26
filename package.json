@@ -2,14 +2,14 @@
     "name": "gitbook-plugin-plantuml",
     "description": "PlantUML plugin for GitBook",
     "main": "index.js",
-    "version": "0.0.15",
+    "version": "0.0.16",
     "engines": {
         "gitbook": "*"
     },
     "homepage": "",
     "repository": {
         "type": "git",
-        "url": "https://github.com/andrescamera/gitbook-plugin-plantuml.git"
+        "url": "https://github.com/simie-cc/gitbook-plugin-plantuml.git"
     },
     "license": "Apache 2",
     "bugs": {

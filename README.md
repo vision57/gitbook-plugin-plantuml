@@ -30,25 +30,26 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 
 ***Image uml.***
 
-**How to use it:**
---------------
+# How to use it
 
 0. Environment requirements
     - Java
     - [Graphviz](http://www.graphviz.org/)
 
-1. Install plugin from github
-
-    `$ npm install https://github.com/...`  
-    (Click **Clone or download** button to get URL)
-
-2. Configure plugin in `book.json`.
+1. Configure plugin in `book.json`.
 
 ```json
 {
-    "plugins": ["plantuml"]
+    "plugins": [
+        "plantuml@git+https://github.com/simie-cc/gitbook-plugin-plantuml.git"
+    ]
 }
+
 ```
+
+2. Install plugins from NPM
+
+	`$ gitbook install`
 
 This plugin only works in your local machine. You need to play with local `gitbook` (command-line tool) to pre-compile all uml images.
 
