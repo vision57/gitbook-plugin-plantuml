@@ -1,5 +1,8 @@
-**GitBook PlantUml Plugin**
-==============
+# **GitBook PlantUml Plugin**
+
+Modified version of Gitbook PlantUml plugin. Originally from
+- [lyhcode's version](https://github.com/lyhcode/gitbook-plugin-plantuml)
+- [andrescamera's version](https://github.com/andrescamera/gitbook-plugin-plantuml)
 
 This is a sample plugin for GitBook and is specially adapted for GitBook from [PlantUML](http://www.plantuml.com/index.html). Gitbook PlantUml plugin is used to select from markdown uml and converting it into a picture format svg.
 
@@ -30,13 +33,18 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 **How to use it:**
 --------------
 
-Gitbook PlantUml plugin can be installed from NPM using:
+0. Environment requirements
+    - Java
+    - [Graphviz](http://www.graphviz.org/)
 
-```$ npm install gitbook-plugin-plantuml```
+1. Install plugin from github
 
-Configure plugin in `book.json`.
+    `$ npm install https://github.com/...`  
+    (Click **Clone or download** button to get URL)
 
-```
+2. Configure plugin in `book.json`.
+
+```json
 {
     "plugins": ["plantuml"]
 }
@@ -46,15 +54,10 @@ This plugin only works in your local machine. You need to play with local `gitbo
 
 ```$ gitbook serve yourbook```
 
-or 
+or
 
 ```$ gitbook build yourbook```
 
-***Additional requirements:***
+## TODO
 
- - Create a directory */assets/images/uml* in the root of your project.
- - [Install PlantUML.](http://www.plantuml.com/download.html) (Download plantuml.jar to root path)
-
-For Mac OS X users. Install *graphviz* package.
-
-```$ brew install graphviz```
+- Integerate with docker image [billryan's docker-gitbook](https://github.com/billryan/docker-gitbook) to make it buildable
