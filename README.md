@@ -41,7 +41,7 @@ This is a sample plugin for GitBook and is specially adapted for GitBook from [P
 ```json
 {
     "plugins": [
-        "plantuml@git+https://github.com/simie-cc/gitbook-plugin-plantuml.git"
+        "plantuml@git+https://github.com/binwin20/gitbook-plugin-plantuml.git"
     ]
 }
 
