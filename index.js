@@ -2,7 +2,7 @@ var fs = require('fs');
 var mkdirp = require('mkdirp');
 var crypto = require('crypto');
 var plantuml = require('node-plantuml');
-var re = /^```uml((.*\n)+?)?```$/im;
+var re = /^```plantuml((.*\n)+?)?```$/im;
 var path = require('path');
 
 var promises = [];
